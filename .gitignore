@@ -1,0 +1,36 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Node/npm
+package-lock.json
+yarn.lock
+
+# Dependencies are already ignored in subfolders
+# but included here for safety at root level
+node_modules/
+
+# Misc
+.cache/
+dist/
+build/
+.turbo/
+coverage/
