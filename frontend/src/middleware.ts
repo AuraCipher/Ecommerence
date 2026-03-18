@@ -145,13 +145,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next()
     }
 
-    // if one of the country codes is in the url and the cache id is not set, set the cache id and redirect
+    // If the URL already contains a valid country code but the cache cookie is
+    // missing, set the cookie and continue (do NOT redirect). Redirecting back
+    // to the same URL creates an infinite loop for fetch-based clients that do
+    // not persist cookies across redirects (e.g. TestSprite probes).
     if (urlHasCountryCode && !cacheIdCookie) {
-      response.cookies.set("_medusa_cache_id", cacheId, {
+      const res = NextResponse.next()
+      res.cookies.set("_medusa_cache_id", cacheId, {
         maxAge: 60 * 60 * 24,
       })
-
-      return response
+      return res
     }
 
     // check if the url is a static asset
