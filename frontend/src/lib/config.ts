@@ -4,15 +4,32 @@ import Medusa from "@medusajs/js-sdk"
 // environment doesn't provide a real localStorage, which can crash rendering.
 // Provide a minimal no-op implementation on the server so SSR can proceed.
 if (typeof window === "undefined") {
-  const ls = (globalThis as any).localStorage
+  try {
+    const ls = (globalThis as any).localStorage
 
-  if (!ls || typeof ls.getItem !== "function") {
-    ;(globalThis as any).localStorage = {
-      getItem: () => null,
-      setItem: () => {},
-      removeItem: () => {},
-      clear: () => {},
+    if (!ls || typeof ls.getItem !== "function") {
+      const mockStorage = {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+        clear: () => {},
+        key: () => null,
+        length: 0,
+      }
+
+      try {
+        ;(globalThis as any).localStorage = mockStorage
+      } catch (e) {
+        // If direct assignment fails, try Object.defineProperty
+        Object.defineProperty(globalThis, "localStorage", {
+          value: mockStorage,
+          writable: true,
+          configurable: true,
+        })
+      }
     }
+  } catch (err) {
+    // Silently handle environment-specific issues with globalThis
   }
 }
 

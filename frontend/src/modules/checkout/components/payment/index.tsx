@@ -1,7 +1,11 @@
 "use client"
 
 import { RadioGroup } from "@headlessui/react"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import {
+  isStripe as isStripeFunc,
+  isCOD as isCODFunc,
+  paymentInfoMap,
+} from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
@@ -43,7 +47,7 @@ const Payment = ({
   const setPaymentMethod = async (method: string) => {
     setError(null)
     setSelectedPaymentMethod(method)
-    if (isStripeFunc(method)) {
+    if (isStripeFunc(method) || isCODFunc(method)) {
       await initiatePaymentSession(cart, {
         provider_id: method,
       })

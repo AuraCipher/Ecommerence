@@ -27,6 +27,7 @@ yarn.lock
 # Dependencies are already ignored in subfolders
 # but included here for safety at root level
 node_modules/
+frontend2/
 
 # Misc
 .cache/

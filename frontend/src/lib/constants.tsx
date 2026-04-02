@@ -1,5 +1,5 @@
 import React from "react"
-import { CreditCard } from "@medusajs/icons"
+import { CreditCard, Cash } from "@medusajs/icons"
 
 import Ideal from "@modules/common/icons/ideal"
 import Bancontact from "@modules/common/icons/bancontact"
@@ -30,6 +30,10 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  pp_default_cod: {
+    title: "Cash on Delivery",
+    icon: <Cash />,
+  },
   // Add more payment providers here
 }
 
@@ -42,6 +46,9 @@ export const isPaypal = (providerId?: string) => {
 }
 export const isManual = (providerId?: string) => {
   return providerId?.startsWith("pp_system_default")
+}
+export const isCOD = (providerId?: string) => {
+  return providerId?.startsWith("pp_default_cod")
 }
 
 // Add currencies that don't need to be divided by 100
